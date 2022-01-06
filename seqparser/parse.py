@@ -109,15 +109,47 @@ class Parser:
                 It is expected to be overridden by `FastaParser` and `FastqParser`""")
 
 
+
+
+############ Shiron's Explanation for what is happening here #######################
+# Using a for loop to iterate through a Fast[aq]Parser object will call the __iter__ method, 
+# which was inherited by the object from the Parser class. The __iter__ method opens the fast[aq]
+# file, which was an argument used to instantiate the Fast[aq]Parser object. The opened file is an 
+# object from class _io.TextIOWrapper. Then, in an infinite while loop, the __iter__ method calls 
+# the get_record method with the opened file as an argument. This method returns _get_record, which was
+# overwritten in the Fast[aq]Parser class. This method calls the __next__ method (same as next()),
+# which is a method defined in the _io.TextIOWrapper class, two/three times, depending on the Fast[aq]Parser
+# object, to return a tuple of the expected length.
+
+
+# Why is there a for loop and while True in the __iter__
+
+# where is stop iteration error raised? From the next method within TextIOWrapper?
+
+
+# the while loop keeps calling get_record. Because the file was never closed, it keeps calling next
+#and remembers its place
+
+
+
 class FastaParser(Parser):
     """
     Fasta Specific Parsing
     """
     def _get_record(self, f_obj: io.TextIOWrapper) -> Tuple[str, str]:
         """
-        returns the next fasta record
-        """
+        returns the next fasta record. 
 
+        """
+        assert self.filename.endswith(".fa"), "You are not using a Fasta file with FastaParser"
+        
+        header = next(f_obj)
+        seq = next(f_obj)
+
+        return header,seq
+
+
+        
 
 class FastqParser(Parser):
     """
@@ -128,3 +160,12 @@ class FastqParser(Parser):
         returns the next fastq record
         """
 
+        assert self.filename.endswith(".fq") "You are not using a Fastq file with FastqParser"
+        
+        header = next(f_obj)
+        seq = next(f_obj)
+        spacer = next(f_obj)
+        quality = next(f_obj)
+
+        return header,seq,quality
+        
