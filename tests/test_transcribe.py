@@ -26,7 +26,9 @@ def test_transcribe():
     Write your unit test for the
     transcribe function here.
     """
-    pass
+    
+
+
 
 
 def test_reverse_transcribe():
@@ -35,3 +37,26 @@ def test_reverse_transcribe():
     reverse transcribe function here.
     """
     pass
+
+
+
+
+
+# if seq is an empty string
+test0={
+            'input':'',
+            'expected_output':''
+}
+
+#if seq is a random DNA sequence
+test1 = {
+            'input':'ATGCGCCCTT',
+            'expected_output':'AUGCGCCCUU'
+}
+
+#if seq only has one nucleotide repeated
+
+test2 = {
+            'input': 'TTTTTTT'
+}
+
