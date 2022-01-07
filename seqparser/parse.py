@@ -96,8 +96,11 @@ class Parser:
             # and implement an exception for the error you will find in
             # the error message you receive. 
             while True:
-                rec = self.get_record(f_obj)
-                yield rec
+                try:
+                    rec = self.get_record(f_obj)
+                    yield rec
+                except StopIteration:
+                    break
 
     def _get_record(self, f_obj: io.TextIOWrapper) -> Union[Tuple[str, str], Tuple[str, str, str]]:
         """
@@ -143,8 +146,8 @@ class FastaParser(Parser):
         """
         assert self.filename.endswith(".fa"), "You are not using a Fasta file with FastaParser"
         
-        header = next(f_obj)
-        seq = next(f_obj)
+        header = next(f_obj).strip('>').strip('\n') #remove fluff from beginning and end of lines
+        seq = next(f_obj).strip('\n')
 
         return header,seq
 
@@ -160,12 +163,12 @@ class FastqParser(Parser):
         returns the next fastq record
         """
 
-        assert self.filename.endswith(".fq") "You are not using a Fastq file with FastqParser"
+        assert self.filename.endswith(".fq"), "You are not using a Fastq file with FastqParser"
         
-        header = next(f_obj)
-        seq = next(f_obj)
+        header = next(f_obj).strip('@').strip('\n')
+        seq = next(f_obj).strip('\n')
         spacer = next(f_obj)
-        quality = next(f_obj)
+        quality = next(f_obj).strip('\n')
 
         return header,seq,quality
         
