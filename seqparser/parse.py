@@ -99,7 +99,7 @@ class Parser:
                 try:
                     rec = self.get_record(f_obj)
                     yield rec
-                except StopIteration:
+                except StopIteration: # Once all lines in the file have been parsed, a StopIteration error will be raised the next time the __next__ method is called, triggering the StopIteration exception, breaking the while loop and ending the parsing.
                     break
 
     def _get_record(self, f_obj: io.TextIOWrapper) -> Union[Tuple[str, str], Tuple[str, str, str]]:
@@ -116,23 +116,19 @@ class Parser:
 
 ############ Shiron's Explanation for what is happening here #######################
 # Using a for loop to iterate through a Fast[aq]Parser object will call the __iter__ method, 
-# which was inherited by the object from the Parser class. The __iter__ method opens the fast[aq]
-# file, which was an argument used to instantiate the Fast[aq]Parser object. The opened file is an 
-# object from class _io.TextIOWrapper. Then, in an infinite while loop, the __iter__ method calls 
-# the get_record method with the opened file as an argument. This method returns _get_record, which was
-# overwritten in the Fast[aq]Parser class. This method calls the __next__ method (same as next()),
-# which is a method defined in the _io.TextIOWrapper class, two/three times, depending on the Fast[aq]Parser
-# object, to return a tuple of the expected length.
-
-
-# Why is there a for loop and while True in the __iter__
-
-# where is stop iteration error raised? From the next method within TextIOWrapper?
-
-
-# the while loop keeps calling get_record. Because the file was never closed, it keeps calling next
-#and remembers its place
-
+# which was inherited by the object from the Parser class. Under the hood, after calling the __iter__ method, 
+# the for loop will initiate a While loop that exits at a StopIteration. Each iteration of the for loop will call
+# the __next__ method on the Fast[aq]Parser.__iter__() object, which is a generator object because it yields and not returns.
+# After the first __next__() call in the for loop, the Fast[aq]Parser.__iter__() object will open the file, creating a _io.TextIOWrapper object (also a generator)
+# and enter a While loop. The get_record method is called with the open file, and the get_record method returns _get_record, which was
+# overwritten in the Fast[aq]Parser class. The _get_record method calls the __next__ method on the _io.TextIOWrapper generator object,
+# two/three times, depending on the Fast[aq]Parser object, to return a tuple of the expected length to the variable 'rec' within the __iter__ method
+# rec is then yielded to the for loop. Then, the process repeats where the next iteration of the loop calls 
+# the __next__ method on the Fast[aq]Parser.__iter__() again. This triggers the While loop within the __iter__ method to run another iteration
+# calling get_method method again, causing the process to repeat with the next record in the file, ultimately yielding another tuple to the for loop
+# Once all lines in the file have been parsed, a StopIteration error will be raised the next time the __next__ method is called, triggering 
+# the StopIteration exception, breaking the while loop and ending the parsing.
+####################################################################################
 
 
 class FastaParser(Parser):
@@ -146,10 +142,11 @@ class FastaParser(Parser):
         """
         assert self.filename.endswith(".fa"), "You are not using a Fasta file with FastaParser"
         
-        header = next(f_obj).strip('>').strip('\n') #remove fluff from beginning and end of lines
+        #each next(f_obj) returns the next line in the file. The first line is the header, the second line is the sequence
+        header = next(f_obj).strip('>').strip('\n') #remove symbol and line break from beginning and end of lines to return a clean looking tuple
         seq = next(f_obj).strip('\n')
 
-        return header,seq
+        return header,seq #returns the tuple (header,seq)
 
 
         
@@ -165,10 +162,11 @@ class FastqParser(Parser):
 
         assert self.filename.endswith(".fq"), "You are not using a Fastq file with FastqParser"
         
-        header = next(f_obj).strip('@').strip('\n')
+        #each next(f_obj) returns the next line in the file. The first line is the header, the second line is the sequence, third line is a spacer, fourth line is the quality
+        header = next(f_obj).strip('@').strip('\n') #remove symbol and line break from beginning and end of lines to return a clean looking tuple
         seq = next(f_obj).strip('\n')
         spacer = next(f_obj)
         quality = next(f_obj).strip('\n')
 
-        return header,seq,quality
+        return header,seq,quality #returns the tuple (header,seq,quality)
         
