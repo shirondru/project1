@@ -36,18 +36,29 @@ def test_transcribe():
 
     #if seq is a random DNA sequence
     test1 = {
-                'input':'ATGCGCCCTT',
-                'expected_output':'AUGCGCCCUU' #not reversed
+                'input':'ATGCGCACTT',
+                'expected_output':'UACGCGUGAA' 
+    }
+
+    #another example of a random DNA sequence
+    test2 = {
+                'input': 'TGCTACCGGT'.
+                'expected_output': 'ACGAUGGCCA'
     }
 
     #if seq only has one nucleotide repeated
-
-    test2 = {
-                'input': 'TTTTTTT',
+    test3 = {
+                'input': 'AAAAAAA',
                 'expected_output':'UUUUUUU'
     }
 
-    tests = [test0,test1,test2]
+    #example from README
+    test4 = {
+                'input': 'ACTGAACCC' 
+                'expected_output' : 'UGACUUGGG'
+    }
+
+    tests = [test0,test1,test2,test3,test4]
 
     for test in tests:
         assert transcribe(test['input']) == test['expected_output']
@@ -69,18 +80,33 @@ def test_reverse_transcribe():
 
     #if seq is a random DNA sequence
     test1 = {
-                'input':'ATGCGCCCTT',
-                'expected_output':'UUCCCGCGUA' #reversed
+                'input':'ATGCGCACTT',
+                'expected_output':'AAGUGCGCAU' #transcribed then reversed
+    }
+
+    #another example of a random DNA sequence
+    test2 = {
+                'input': 'TGCTACCGGT'.
+                'expected_output': 'ACCGGUAGCA'
+                'ACGAUGGCCA'
     }
 
     #if seq only has one nucleotide repeated
 
-    test2 = {
-                'input': 'TTTTTTT',
+    test3 = {
+                'input': 'AAAAAAA',
                 'expected_output':'UUUUUUU'
     }
 
-    tests = [test0,test1,test2]
+    #example from README
+    test4 = {
+                'input': 'ACTGAACCC' 
+                'expected_output' : 'GGGUUCAGU'
+    }
+    #if seq 
+    
+
+    tests = [test0,test1,test2,test3,test4]
 
     for test in tests:
         assert reverse_transcribe(test['input']) == test['expected_output']
