@@ -42,7 +42,7 @@ def test_transcribe():
 
     #another example of a random DNA sequence
     test2 = {
-                'input': 'TGCTACCGGT'.
+                'input': 'TGCTACCGGT',
                 'expected_output': 'ACGAUGGCCA'
     }
 
