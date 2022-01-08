@@ -20,16 +20,18 @@ def main():
     # For each record of FastaParser, Reverse Transcribe the sequence
     # and print it to console
     print('*'*20)
-    print('Parsing Fasta')
+    print('Parsing Fasta') #Add a print statement to console to help keep track of the print statements
     print('*'*20)
-    for record in fasta_parser:
-        header = record[0]
-        seq = record[1]
+    for record in fasta_parser: #Have FastaParser loop through records in test.fa
+        header = record[0] #first element of tuple returned by FastaParser is header
+        seq = record[1] #second element of tuple returned by FastaParser is sequence
         transcribed_seq = transcribe(seq)
-        reverse_transcrived_seq = reverse_transcribe(seq)
+        reverse_transcribed_seq = reverse_transcribe(seq) 
+
+        #print the record
         print(header)
         print(f"Transcribed: {transcribed_seq}") 
-        print(f"Reverse Transcribed: {reverse_transcrived_seq}")
+        print(f"Reverse Transcribed: {reverse_transcribed_seq}")
         print('\n')
 
 
@@ -44,10 +46,12 @@ def main():
         header = record[0]
         seq = record[1]
         transcribed_seq = transcribe(seq)
-        reverse_transcrived_seq = reverse_transcribe(seq)
+        reverse_transcribed_seq = reverse_transcribe(seq)
+
+        #print the record
         print(header)
         print(f"Transcribed: {transcribed_seq}") 
-        print(f"Reverse Transcribed: {reverse_transcrived_seq}")
+        print(f"Reverse Transcribed: {reverse_transcribed_seq}")
         print('\n')
 
 """
