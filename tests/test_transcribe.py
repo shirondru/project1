@@ -54,7 +54,7 @@ def test_transcribe():
 
     #example from README
     test4 = {
-                'input': 'ACTGAACCC' 
+                'input': 'ACTGAACCC', 
                 'expected_output' : 'UGACUUGGG'
     }
 
@@ -86,7 +86,7 @@ def test_reverse_transcribe():
 
     #another example of a random DNA sequence
     test2 = {
-                'input': 'TGCTACCGGT'.
+                'input': 'TGCTACCGGT',
                 'expected_output': 'ACCGGUAGCA'
                 'ACGAUGGCCA'
     }
@@ -100,7 +100,7 @@ def test_reverse_transcribe():
 
     #example from README
     test4 = {
-                'input': 'ACTGAACCC' 
+                'input': 'ACTGAACCC',
                 'expected_output' : 'GGGUUCAGU'
     }
     #if seq 
