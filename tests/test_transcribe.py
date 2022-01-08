@@ -88,7 +88,6 @@ def test_reverse_transcribe():
     test2 = {
                 'input': 'TGCTACCGGT',
                 'expected_output': 'ACCGGUAGCA'
-                'ACGAUGGCCA'
     }
 
     #if seq only has one nucleotide repeated
