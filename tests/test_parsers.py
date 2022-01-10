@@ -34,7 +34,9 @@ def test_FastaParser():
     reads in the example Fasta File.
     """
 
-    #testing first 5 records of test.fa + last record of test.fa to also ensure the parser successfuly parses entire file
+    
+    #testing first 5 records of test.fa + last record of test.fa to ensure the parser is doing the right thing for these subset of records.
+    #testing last record also ensure the parser successfully parsed the entire file
     #these expected outputs were created by manually copying and pasting from the test.fa file
     expected_outputs = {
         0 : ('seq0','TGATTGAATCTTTTGAGGGTCACGGCCCGGAAGCCAGAATTTCGGGGTCCTCTGTGGATATTAATCGAGCCCACACGGTGTGAGTTCAGCGGCCCCCGCA'),
@@ -51,7 +53,7 @@ def test_FastaParser():
             assert record == expected_outputs[idx] #Compare record returned by FastaParser to expected output for same record in the dictionary above
 
 
-
+    assert idx == 99 #After looping through every record in test.fa, idx should be equal to 99 because there were 100 records in test.fa. This tests the parser parsed the expected number of records
 
 
 def test_FastqParser():
@@ -62,7 +64,8 @@ def test_FastqParser():
     reads in the example Fastq File.
     """
 
-    #testing first 5 records of test.fq + last record of test.fq to also ensure the parser successfuly parses entire file
+    #testing first 5 records of test.fq + last record of test.fq to ensure the parser is doing the right thing for these subset of records.
+    #testing last record also ensure the parser successfully parsed entire file
     #these expected outputs were created by manually copying and pasting from the test.fq file
     expected_outputs = {
         0 : ('seq0','TGTGGTCGTATAGTTATTGTCATAAATTACACAGAATCGCGATTCTCCGCGTCCACCAATCTTAGTGCACCACAGCATCGACCCGATTTATGACGCTGAG',"""*540($=*,=.062565,2>'487')!:&&6=,6,*7>:&132&83*8(58&59>'8!;28<94,0*;*.94**:9+7"94(>7='(!5"2/!%"4#32="""),
@@ -77,3 +80,9 @@ def test_FastqParser():
     for idx, record in enumerate(fastq_parser): #Loop through records in test.fa using FastqParser
         if idx <= 4: # When loop idx in [0,1,2,3,4,99] 
             assert record == expected_outputs[idx] #Compare record returned by FastqParser to expected output for same record in the dictionary above
+
+
+    assert idx == 99 #After looping through every record in test.fq, idx should be equal to 99 because there were 100 records in test.fa. This tests the parser parsed the expected number of records
+
+
+
